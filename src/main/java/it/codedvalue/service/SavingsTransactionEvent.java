@@ -1,6 +1,5 @@
 package it.codedvalue.service;
 
-
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -12,5 +11,4 @@ public class SavingsTransactionEvent {
     private long id;
     private BigDecimal amount;
     private Date transactionDate;
-
 }

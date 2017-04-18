@@ -4,7 +4,6 @@ package it.codedvalue.client;
 import it.codedvalue.service.SavingsTransactionEvent;
 import java.util.Collections;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +26,7 @@ public class SavingsTransactionClientApplication {
                     .uri("/savingstransactions")
                     .accept(MediaType.TEXT_EVENT_STREAM)
                     .retrieve().bodyToFlux(SavingsTransactionEvent.class)
-                    .subscribe(ste -> System.out.println(ste.getAmount() + " " + ste.getTransactionDate()));
+                    .subscribe(ste -> System.out.println(ste.getAmount() + " euro gestort op " + ste.getTransactionDate()));
         };
     }
 

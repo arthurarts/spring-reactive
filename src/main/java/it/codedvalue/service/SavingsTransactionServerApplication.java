@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Stream;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.http.MediaType;
