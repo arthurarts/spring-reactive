@@ -2,6 +2,7 @@ package it.codedvalue.client;
 
 
 import it.codedvalue.service.SavingsTransactionEvent;
+import java.math.BigDecimal;
 import java.util.Collections;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +27,16 @@ public class SavingsTransactionClientApplication {
                     .uri("/savingstransactions")
                     .accept(MediaType.TEXT_EVENT_STREAM)
                     .retrieve().bodyToFlux(SavingsTransactionEvent.class)
-                    .subscribe(ste -> System.out.println(ste.getAmount() + " euro gestort op " + ste.getTransactionDate()));
+                    .filter(ste -> ste.getAmount().compareTo(BigDecimal.valueOf(500)) == 1)
+                    .subscribe(
+                            ste -> {
+                                if (ste.getAmount().compareTo(BigDecimal.valueOf(500)) == 1) {
+                                    System.out.println("Klant voldoet! " + ste.getAmount() + " euro gestort op " + ste.getTransactionDate());
+                                } else {
+                                    System.out.println(" " + ste.getAmount() + " euro gestort op " + ste.getTransactionDate());
+                                }
+                            }
+                    );
         };
     }
 

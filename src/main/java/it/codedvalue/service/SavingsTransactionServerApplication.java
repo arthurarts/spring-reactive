@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Random;
 import java.util.stream.Stream;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -21,22 +22,21 @@ public class SavingsTransactionServerApplication {
 
     @GetMapping("/savingstransactions/{id}")
     Mono<SavingsTransactionEvent> eventById(@PathVariable Long id) {
-        return Mono.just(new SavingsTransactionEvent(id, BigDecimal.valueOf(500), new Date()));
+        return Mono.just(new SavingsTransactionEvent(id, BigDecimal.valueOf((new Random()).nextInt((1500 - 0) + 1) + 0 ), new Date()));
     }
 
-    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE, value="/savingstransactions")
-    public Flux<SavingsTransactionEvent> transactionEvents() {
-
+    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE, value = "/savingstransactions")
+    Flux<SavingsTransactionEvent> transactionEvents() {
         Flux<SavingsTransactionEvent> savingsTransactionsFlux =
                 Flux.fromStream(
                         Stream.generate(
-                                () -> new SavingsTransactionEvent(System.currentTimeMillis(), BigDecimal.valueOf(550), new Date())
-                )); // generate a stream of SavingsTransactionsEvents.
+                                () -> new SavingsTransactionEvent(System.currentTimeMillis(), BigDecimal.valueOf(
+                                        (new Random()).nextInt((1500 - 0) + 1) + 0), new Date())
+                        ));
 
-        Flux<Long> durationsFlux = Flux.interval(Duration.ofSeconds(1)); // will emit new event every 1 seconds.
+        Flux<Long> durationsFlux = Flux.interval(Duration.ofSeconds(1));
 
         return Flux.zip(savingsTransactionsFlux, durationsFlux).map(Tuple2::getT1); // http://rxmarbles.com/#zip
-
     }
 
     public static void main(String[] args) {
