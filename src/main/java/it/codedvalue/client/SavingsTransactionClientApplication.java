@@ -22,7 +22,6 @@ public class SavingsTransactionClientApplication {
     @Bean
     CommandLineRunner demo(WebClient webClient) {
         return args -> {
-
             webClient
                     .get()
                     .uri("/savingstransactions")
