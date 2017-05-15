@@ -29,8 +29,7 @@ public class SpringReactiveApplicationTests {
 				.returnResult(SavingsTransactionEvent.class);
 
 		StepVerifier.create(result.getResponseBody())
-				.expectNextMatches(saving -> saving.getClass().equals(SavingsTransactionEvent.class))
-				.expectNextMatches(saving -> saving.getAmount().compareTo(BigDecimal.valueOf(500L))==1)
+				.expectNextMatches(saving -> saving.getAmount().compareTo(BigDecimal.valueOf(0L))==1)
 				.expectNextCount(9)
 				.thenCancel()
 				.verify();
